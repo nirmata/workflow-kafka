@@ -86,8 +86,8 @@ public class TestEdges extends BaseForTests
         List<WorkflowManager> workflowManagers = IntStream.range(0, WORKFLOW_QTY).mapToObj(i -> {
             TaskType type = ((i & 1) != 0) ? type1 : type2;
             return WorkflowManagerBuilder.builder()
-                .addingTaskExecutor(taskExecutor, 10, type)
                 .withCurator(curator, "test-" + i, "1")
+                .addingTaskExecutor(taskExecutor, 10, type)
                 .build();
         }).collect(Collectors.toList());
         try
@@ -133,9 +133,9 @@ public class TestEdges extends BaseForTests
             return new TaskExecutionResult(TaskExecutionStatus.SUCCESS, "");
         };
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
+            .withCurator(curator, "test", "1")
             .addingTaskExecutor(taskExecutor, 10, idempotentType)
             .addingTaskExecutor(taskExecutor, 10, nonIdempotentType)
-            .withCurator(curator, "test", "1")
             .build();
         try
         {

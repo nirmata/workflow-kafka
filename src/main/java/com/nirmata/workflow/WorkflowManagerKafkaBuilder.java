@@ -15,44 +15,27 @@
  */
 package com.nirmata.workflow;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
-import com.google.common.util.concurrent.MoreExecutors;
-import com.nirmata.workflow.admin.AutoCleaner;
-import com.nirmata.workflow.details.AutoCleanerHolder;
 import com.nirmata.workflow.details.KafkaHelper;
 import com.nirmata.workflow.details.TaskExecutorSpec;
 import com.nirmata.workflow.details.WorkflowManagerKafkaImpl;
 import com.nirmata.workflow.executor.TaskExecutor;
 import com.nirmata.workflow.models.TaskType;
-import com.nirmata.workflow.queue.QueueFactory;
 import com.nirmata.workflow.queue.kafka.KafkaSimpleQueueFactory;
-import com.nirmata.workflow.serialization.Serializer;
-import com.nirmata.workflow.serialization.StandardSerializer;
 import com.nirmata.workflow.storage.StorageManager;
 import com.nirmata.workflow.storage.StorageManagerMongoImpl;
 import com.nirmata.workflow.storage.StorageManagerNoOpImpl;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.time.Duration;
-import java.util.List;
-import java.util.concurrent.Executor;
 
 /**
  * Builds {@link WorkflowManager} instances
  */
-public class WorkflowManagerKafkaBuilder {
-    private QueueFactory queueFactory = new KafkaSimpleQueueFactory();
-    private String instanceName;
+public class WorkflowManagerKafkaBuilder extends WorkflowManagerBaseBuilder{
     private KafkaHelper kafkaHelper;
     private boolean workflowWorkerEnabled = true;
-    private AutoCleanerHolder autoCleanerHolder = newNullHolder();
-    private Serializer serializer = new StandardSerializer();
-    private Executor taskRunnerService = MoreExecutors.newDirectExecutorService();
     private StorageManager storageManager = new StorageManagerNoOpImpl();
 
-    private final List<TaskExecutorSpec> specs = Lists.newArrayList();
     private String namespace = "";
     private String namespaceVer = "";
 
@@ -183,100 +166,22 @@ public class WorkflowManagerKafkaBuilder {
     }
 
     /**
-     * <em>optional</em><br>
-     * <p>
-     * Used in reporting. This will be the value recorded as tasks are executed. Via
-     * reporting, you can determine which instance has executed a given task.
-     * </p>
-     *
-     * <p>
-     * Default is: <code>InetAddress.getLocalHost().getHostName()</code>
-     * </p>
-     *
-     * @param instanceName the name of this instance
-     * @return this (for chaining)
-     */
-    public WorkflowManagerKafkaBuilder withInstanceName(String instanceName) {
-        this.instanceName = Preconditions.checkNotNull(instanceName, "instanceName cannot be null");
-        return this;
-    }
-
-    /**
      * Return a new WorkflowManager using the current builder values
      *
      * @return new WorkflowManager
      */
     public WorkflowManager build() {
-        return new WorkflowManagerKafkaImpl(kafkaHelper, storageManager, workflowWorkerEnabled, queueFactory,
-                instanceName, specs, autoCleanerHolder, serializer, taskRunnerService);
-    }
-
-    /**
-     * Currently, only uses Kafka for queuing.
-     * Send side of queue interface not implemented yet, so do not use
-     *
-     * @param queueFactory new queue factory
-     * @return this (for chaining)
-     */
-    public WorkflowManagerKafkaBuilder withQueueFactory(QueueFactory queueFactory) {
-        this.queueFactory = Preconditions.checkNotNull(queueFactory, "queueFactory cannot be null");
-        return this;
-    }
-
-    /**
-     * <em>optional</em><br>
-     * Sets an auto-cleaner that will run every given period. This is used to clean
-     * old runs.
-     * IMPORTANT: the auto cleaner will only run on the instance that is the current
-     * scheduler.
-     *
-     * @param autoCleaner the auto cleaner to use
-     * @param runPeriod   how often to run
-     * @return this (for chaining)
-     */
-    public WorkflowManagerKafkaBuilder withAutoCleaner(AutoCleaner autoCleaner, Duration runPeriod) {
-        autoCleanerHolder = (autoCleaner == null) ? newNullHolder() : new AutoCleanerHolder(autoCleaner, runPeriod);
-        return this;
-    }
-
-    /**
-     * <em>optional</em><br>
-     * By default, a JSON serializer is used to store data. Use this to
-     * specify an alternate serializer
-     *
-     * @param serializer serializer to use
-     * @return this (for chaining)
-     */
-    public WorkflowManagerKafkaBuilder withSerializer(Serializer serializer) {
-        this.serializer = Preconditions.checkNotNull(serializer, "serializer cannot be null");
-        return this;
-    }
-
-    /**
-     * <em>optional</em><br>
-     * By default, tasks are run in an internal executor service. Use this to
-     * specify a custom executor service for tasks. This executor does not add any
-     * async/concurrency benefit. It's purpose is to allow you to control which
-     * thread executes your tasks.
-     *
-     * @param taskRunnerService custom executor service
-     * @return this (for chaining)
-     */
-    public WorkflowManagerKafkaBuilder withTaskRunnerService(Executor taskRunnerService) {
-        this.taskRunnerService = Preconditions.checkNotNull(taskRunnerService, "taskRunnerService cannot be null");
-        return this;
+        return new WorkflowManagerKafkaImpl(kafkaHelper, storageManager, workflowWorkerEnabled, super.queueFactory,
+                super.instanceName, super.specs, super.autoCleanerHolder, super.serializer, super.taskRunnerService);
     }
 
     private WorkflowManagerKafkaBuilder() {
+        super.queueFactory = new KafkaSimpleQueueFactory();
         try {
-            instanceName = InetAddress.getLocalHost().getHostName();
+            super.instanceName = InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException e) {
-            instanceName = "unknown";
+            super.instanceName = "unknown";
         }
         this.kafkaHelper = new KafkaHelper("localhost:9092", "defaultns", "v1");
-    }
-
-    private AutoCleanerHolder newNullHolder() {
-        return new AutoCleanerHolder(null, Duration.ofDays(Integer.MAX_VALUE));
     }
 }

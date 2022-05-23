@@ -25,6 +25,8 @@ import com.nirmata.workflow.storage.StorageManager;
 import com.nirmata.workflow.storage.StorageManagerMongoImpl;
 import com.nirmata.workflow.storage.StorageManagerNoOpImpl;
 
+import org.apache.curator.framework.CuratorFramework;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -183,5 +185,10 @@ public class WorkflowManagerKafkaBuilder extends WorkflowManagerBaseBuilder{
             super.instanceName = "unknown";
         }
         this.kafkaHelper = new KafkaHelper("localhost:9092", "defaultns", "v1");
+    }
+
+    @Override
+    public WorkflowManagerBuilder withCurator(CuratorFramework curator, String namespace, String version) {
+        throw new UnsupportedOperationException("Curator need not be used with Kafka based workflow");
     }
 }

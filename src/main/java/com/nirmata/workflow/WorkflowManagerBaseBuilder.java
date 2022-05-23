@@ -13,6 +13,8 @@ import com.nirmata.workflow.queue.QueueFactory;
 import com.nirmata.workflow.serialization.Serializer;
 import com.nirmata.workflow.serialization.StandardSerializer;
 
+import org.apache.curator.framework.CuratorFramework;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -146,4 +148,6 @@ public abstract class WorkflowManagerBaseBuilder {
     }
 
     public abstract WorkflowManager build();
+
+    public abstract WorkflowManagerBuilder withCurator(CuratorFramework curator, String namespace, String version);
 }

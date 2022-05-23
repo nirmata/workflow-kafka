@@ -38,8 +38,8 @@ public class TestWorkflowListenerManager extends BaseForTests
         TestTaskExecutor taskExecutor = new TestTaskExecutor(6);
         TaskType taskType = new TaskType("test", "1", true);
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .withCurator(curator, "test", "1")
             .addingTaskExecutor(taskExecutor, 10, taskType)
+            .withCurator(curator, "test", "1")
             .build();
         try
         {

@@ -59,8 +59,8 @@ public class TestLoadZookeeper extends TestLoadBase {
     public void testLoadZkp1() throws Exception {
         TestTaskExecutor taskExecutor = new TestTaskExecutor(getTest1Tasks(), false, getTest1Delay());
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-                .withCurator(curator, ZKP_NS, ZKP_NS_VER)
                 .addingTaskExecutor(taskExecutor, 10, new TaskType("test", "1", true))
+                .withCurator(curator, ZKP_NS, ZKP_NS_VER)
                 .build();
         try {
 

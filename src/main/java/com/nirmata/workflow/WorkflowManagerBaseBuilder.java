@@ -150,4 +150,12 @@ public abstract class WorkflowManagerBaseBuilder {
     public abstract WorkflowManager build();
 
     public abstract WorkflowManagerBuilder withCurator(CuratorFramework curator, String namespace, String version);
+
+    public abstract WorkflowManagerKafkaBuilder withoutWorkflowWorker();
+
+    public abstract WorkflowManagerKafkaBuilder withMongo(String connStr);
+
+    public abstract WorkflowManagerKafkaBuilder withKafka(String brokers, String namespace, String version, int taskTypeParitions, short replicas);
+
+    public abstract WorkflowManagerKafkaBuilder withKafka(String brokers, String namespace, String version);
 }

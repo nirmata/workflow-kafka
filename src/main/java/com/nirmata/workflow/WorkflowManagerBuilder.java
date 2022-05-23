@@ -62,6 +62,26 @@ public class WorkflowManagerBuilder extends WorkflowManagerBaseBuilder
         return this;
     }
 
+    @Override
+    public WorkflowManagerKafkaBuilder withoutWorkflowWorker() {
+        throw new UnsupportedOperationException("Building Wflow without Wflow Worker is unsupported for Curator based Wflow");
+    }
+
+    @Override
+    public WorkflowManagerKafkaBuilder withMongo(String connStr) {
+        throw new UnsupportedOperationException("Building Wflow with Mongo is unsupported for Curator based Wflow");
+    }
+
+    @Override
+    public WorkflowManagerKafkaBuilder withKafka(String brokers, String namespace, String version, int taskTypeParitions, short replicas) {
+        throw new UnsupportedOperationException("Building Wflow with Kafka is unsupported for Curator based Wflow");
+    }
+
+    @Override
+    public WorkflowManagerKafkaBuilder withKafka(String brokers, String namespace, String version) {
+        throw new UnsupportedOperationException("Building Wflow with Kafka is unsupported for Curator based Wflow");
+    }
+
     /**
      * Return a new WorkflowManager using the current builder values
      *

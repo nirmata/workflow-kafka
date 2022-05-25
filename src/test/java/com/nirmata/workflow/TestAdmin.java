@@ -55,8 +55,8 @@ public class TestAdmin extends BaseForTests
             return new TaskExecutionResult(TaskExecutionStatus.SUCCESS, "");
         };
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, new TaskType("test", "1", true))
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, new TaskType("test", "1", true))
             .build();
         try
         {
@@ -122,8 +122,8 @@ public class TestAdmin extends BaseForTests
             return new TaskExecutionResult(TaskExecutionStatus.SUCCESS, "", resultData);
         };
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, taskType)
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, taskType)
             .build();
         try
         {
@@ -216,8 +216,8 @@ public class TestAdmin extends BaseForTests
             return new TaskExecutionResult(TaskExecutionStatus.SUCCESS, "");
         };
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, taskType)
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, taskType)
             .build();
         try
         {

@@ -127,6 +127,39 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
+    @Test(enabled = true)
+    public void testDirectSubmit() throws Exception {
+        CountDownLatch latch = new CountDownLatch(4);
+        TestTaskExecutor taskExecutor = new TestTaskExecutor(4) {
+            @Override
+            public TaskExecution newTaskExecution(WorkflowManager workflowManager, ExecutableTask task) {
+                latch.countDown();
+                return super.newTaskExecution(workflowManager, task);
+            }
+        };
+        TaskType taskType = new TaskType("test", "1", true);
+        WorkflowManager workflowManager = createWorkflowKafkaBuilder()
+                .addingTaskExecutor(taskExecutor, 1, taskType)
+                .build();
+        try {
+            workflowManager.start();
+
+            Task task4 = new Task(new TaskId(), taskType);
+            Task task3 = new Task(new TaskId(), taskType, Lists.newArrayList(task4));
+            Task task2 = new Task(new TaskId(), taskType, Lists.newArrayList(task3));
+            Task task1 = new Task(new TaskId(), taskType, Lists.newArrayList(task2));
+
+            workflowManager.submitSimpleTaskDirect(task1);
+            workflowManager.submitSimpleTaskDirect(task2);
+            workflowManager.submitSimpleTaskDirect(task3);
+            workflowManager.submitSimpleTaskDirect(task4);
+
+            Assert.assertTrue(timing.awaitLatch(latch));
+        } finally {
+            closeWorkflow(workflowManager);
+        }
+    }
+
     // Running this test last, because, autocleaner
     // might clear runs unexpectedly especially if tests
     // are run in parallel

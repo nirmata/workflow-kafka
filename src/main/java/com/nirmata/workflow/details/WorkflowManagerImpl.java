@@ -601,4 +601,10 @@ public class WorkflowManagerImpl implements WorkflowManager, WorkflowAdmin
 
         return builder.build();
     }
+    
+    @Override
+    public void submitSimpleTaskDirect(Task task)
+    {
+        throw(new UnsupportedOperationException("Direct submission is unsupported in Zookeeper based workflow"));
+    }
 }

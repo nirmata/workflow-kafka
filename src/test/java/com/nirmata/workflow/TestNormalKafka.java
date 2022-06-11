@@ -64,6 +64,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Test(enabled=false)
 public class TestNormalKafka extends BaseForTests {
     protected Properties kafkaProps = new Properties();
     protected final Timing timing = new Timing();

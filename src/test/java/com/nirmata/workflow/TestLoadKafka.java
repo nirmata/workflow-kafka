@@ -53,7 +53,6 @@ public class TestLoadKafka extends TestLoadBase {
         cleanDB();
     }
 
-    @Test(enabled = false)
     public void testLoadKafka1() throws Exception {
         TestTaskExecutor taskExecutor = new TestTaskExecutor(getTest1Tasks(), false, getTest1Delay());
         WorkflowManager workflowManager = createWorkflowKafkaBuilder()

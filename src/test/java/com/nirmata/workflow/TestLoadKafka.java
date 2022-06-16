@@ -30,6 +30,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+@Test(enabled=false)
 public class TestLoadKafka extends TestLoadBase {
     private final Logger log = LoggerFactory.getLogger(getClass());
     private static final String TASKTYPE = "test";
@@ -52,7 +53,6 @@ public class TestLoadKafka extends TestLoadBase {
         cleanDB();
     }
 
-    @Test(enabled = false)
     public void testLoadKafka1() throws Exception {
         TestTaskExecutor taskExecutor = new TestTaskExecutor(getTest1Tasks(), false, getTest1Delay());
         WorkflowManager workflowManager = createWorkflowKafkaBuilder()

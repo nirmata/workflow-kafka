@@ -118,7 +118,6 @@ public class TestParentNodeDeletion extends BaseForTests
         Duration runPeriod = Duration.ofSeconds(5);
         AutoCleaner cleaner = new StandardAutoCleaner(Duration.ofSeconds(5));
 
-        final WorkflowManagerBuilder workflowManagerBuilder = WorkflowManagerBuilder.builder().withCurator(curator, namespace, VERSION).withAutoCleaner(cleaner, runPeriod);
 
         final TaskExecutor taskExecutor = (workflowManager, executableTask) -> () -> {
             final String runId = executableTask.getRunId().getId();
@@ -128,9 +127,11 @@ public class TestParentNodeDeletion extends BaseForTests
             return new TaskExecutionResult(TaskExecutionStatus.SUCCESS, "");
         };
 
-        workflowManagerBuilder.addingTaskExecutor(taskExecutor, CONCURRENT_TASKS, TASK_TYPE);
-
-        final WorkflowManager workflowManager = workflowManagerBuilder.build();
+        final WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
+                .withCurator(curator, namespace, VERSION)
+                .withAutoCleaner(cleaner, runPeriod)
+                .addingTaskExecutor(taskExecutor, CONCURRENT_TASKS, TASK_TYPE)
+                .build();
         workflowManager.start();
 
         return workflowManager;

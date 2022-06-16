@@ -64,6 +64,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Test(enabled=false)
 public class TestNormalKafka extends BaseForTests {
     protected Properties kafkaProps = new Properties();
     protected final Timing timing = new Timing();
@@ -86,7 +87,6 @@ public class TestNormalKafka extends BaseForTests {
         log.info("====Done test {}====", method.getName());
     }
 
-    @Test(enabled = true)
     public void testFailedStop() throws Exception {
         TestTaskExecutor taskExecutor = new TestTaskExecutor(2) {
             @Override
@@ -130,7 +130,6 @@ public class TestNormalKafka extends BaseForTests {
     // Running this test last, because, autocleaner
     // might clear runs unexpectedly especially if tests
     // are run in parallel
-    @Test(enabled = true)
     public void zzTestAutoCleanRun() throws Exception {
 
         TaskExecutor taskExecutor = (w, t) -> () -> new TaskExecutionResult(TaskExecutionStatus.SUCCESS, "");
@@ -154,7 +153,6 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
-    @Test(enabled = true)
     public void testCanceling() throws Exception {
         Semaphore executionLatch = new Semaphore(0);
         CountDownLatch continueLatch = new CountDownLatch(1);
@@ -190,7 +188,6 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
-    @Test(enabled = true)
     public void testSingleClientSimple() throws Exception {
         TestTaskExecutor taskExecutor = new TestTaskExecutor(6);
         WorkflowManager workflowManager = createWorkflowKafkaBuilder()
@@ -248,7 +245,6 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
-    @Test(enabled = true)
     public void testMultiClientSimple() throws Exception {
         final int QTY = 4;
 
@@ -289,7 +285,6 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
-    @Test(enabled = true)
     public void testDuplicateSubmit() throws Exception {
         // One more than 6 tasks in the DAG
         TestTaskExecutor taskExecutor = new TestTaskExecutor(7);
@@ -313,7 +308,6 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
-    @Test(enabled = false)
     public void testExpiry() throws Exception {
         // To enable this test, match the value of the equivalent constant in
         // SchedulerKafka class with value below
@@ -347,7 +341,6 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
-    @Test(enabled = true)
     public void testNoData() throws Exception {
         WorkflowManager workflowManager = createWorkflowKafkaBuilder()
                 .addingTaskExecutor(new TestTaskExecutor(1), 10, new TaskType("test", "1", true))
@@ -357,7 +350,6 @@ public class TestNormalKafka extends BaseForTests {
         Assert.assertFalse(taskData.isPresent());
     }
 
-    @Test(enabled = true)
     public void testTaskData() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         TaskExecutor taskExecutor = (w, t) -> () -> {
@@ -393,7 +385,6 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
-    @Test(enabled = true)
     public void testTaskProgress() throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         TaskExecutor taskExecutor = (w, t) -> () -> {
@@ -429,7 +420,6 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
-    @Test(enabled = true)
     public void testSubTask() throws Exception {
         TaskType taskType = new TaskType("test", "1", true);
         Task groupAChild = new Task(new TaskId(), taskType);
@@ -480,7 +470,6 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
-    @Test(enabled = true)
     public void testMultiTypesExecution() throws Exception {
         TaskType taskType1 = new TaskType("type1", "1", true);
         TaskType taskType2 = new TaskType("type2", "1", true);
@@ -519,7 +508,6 @@ public class TestNormalKafka extends BaseForTests {
         }
     }
 
-    @Test(enabled = true)
     public void testMultiTypes() throws Exception {
         TaskType taskType1 = new TaskType("type1", "1", true);
         TaskType taskType2 = new TaskType("type2", "1", true);

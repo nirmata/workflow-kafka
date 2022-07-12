@@ -4,7 +4,7 @@
 
     <groupId>com.nirmata.workflow</groupId>
     <artifactId>nirmata-workflow</artifactId>
-    <version>0.10.9-SNAPSHOT</version>
+    <version>0.11.0</version>
 
     <properties>
         <jdk-version>17</jdk-version>
@@ -56,16 +56,24 @@
 
     <distributionManagement>
         <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Sonatype Nexus Staging</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+            <id>nirmata-github</id>
+            <name>Nirmata Maven</name>
+            <url>https://maven.pkg.github.com/nirmata/java-common</url>
         </repository>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
     </distributionManagement>
+
+<!--    <distributionManagement>-->
+<!--        <repository>-->
+<!--            <id>sonatype-nexus-staging</id>-->
+<!--            <name>Sonatype Nexus Staging</name>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>sonatype-nexus-snapshots</id>-->
+<!--            <name>Sonatype Nexus Snapshots</name>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>-->
+<!--        </snapshotRepository>-->
+<!--    </distributionManagement>-->
 
     <licenses>
         <license>

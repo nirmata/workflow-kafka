@@ -49,8 +49,8 @@ public class TestDelayPriorityTasks extends BaseForTests
         };
         TaskType taskType = new TaskType("test", "1", true, TaskMode.DELAY);
         try ( WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, taskType)
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, taskType)
             .build() )
         {
             workflowManager.start();
@@ -91,8 +91,8 @@ public class TestDelayPriorityTasks extends BaseForTests
         };
         TaskType taskType = new TaskType("test", "1", true, TaskMode.PRIORITY);
         try ( WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 1, taskType)
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 1, taskType)
             .build() )
         {
             SimpleQueue.debugQueuedTasks = new Semaphore(0);

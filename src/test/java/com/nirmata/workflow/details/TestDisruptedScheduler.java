@@ -95,8 +95,8 @@ public class TestDisruptedScheduler
             };
 
             workflowManager = WorkflowManagerBuilder.builder()
-                .addingTaskExecutor(taskExecutor, 10, taskType)
                 .withCurator(curator, "test", "1")
+                .addingTaskExecutor(taskExecutor, 10, taskType)
                 .withInstanceName("i-" + id)
                 .build();
             workflowManager.start();

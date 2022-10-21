@@ -73,8 +73,8 @@ public class TestNormal extends BaseForTests
         };
         TaskType taskType = new TaskType("test", "1", true);
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, taskType)
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, taskType)
             .build();
         try
         {
@@ -113,8 +113,8 @@ public class TestNormal extends BaseForTests
         TaskExecutor taskExecutor = (w, t) -> () -> new TaskExecutionResult(TaskExecutionStatus.SUCCESS, "");
         TaskType taskType = new TaskType("test", "1", true);
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, taskType)
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, taskType)
             .withAutoCleaner(new StandardAutoCleaner(Duration.ofMillis(1)), Duration.ofMillis(1))
             .build();
         try
@@ -155,8 +155,8 @@ public class TestNormal extends BaseForTests
         };
         TaskType taskType = new TaskType("test", "1", true);
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, taskType)
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, taskType)
             .build();
         try
         {
@@ -184,8 +184,8 @@ public class TestNormal extends BaseForTests
     {
         TestTaskExecutor taskExecutor = new TestTaskExecutor(6);
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, new TaskType("test", "1", true))
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, new TaskType("test", "1", true))
             .build();
         try
         {
@@ -232,8 +232,8 @@ public class TestNormal extends BaseForTests
         for ( int i = 0; i < QTY; ++i )
         {
             WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-                .addingTaskExecutor(taskExecutor, 10, taskType)
                 .withCurator(curator, "test", "1")
+                .addingTaskExecutor(taskExecutor, 10, taskType)
                 .build();
             workflowManagers.add(workflowManager);
         }
@@ -269,8 +269,8 @@ public class TestNormal extends BaseForTests
     public void testNoData() throws Exception
     {
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(new TestTaskExecutor(1), 10, new TaskType("test", "1", true))
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(new TestTaskExecutor(1), 10, new TaskType("test", "1", true))
             .build();
 
         Optional<TaskExecutionResult> taskData = workflowManager.getTaskExecutionResult(new RunId(), new TaskId());
@@ -290,8 +290,8 @@ public class TestNormal extends BaseForTests
         };
         TaskType taskType = new TaskType("test", "1", true);
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, taskType)
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, taskType)
             .build();
         try
         {
@@ -335,8 +335,8 @@ public class TestNormal extends BaseForTests
         };
         TaskType taskType = new TaskType("test", "1", true);
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, taskType)
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, taskType)
             .build();
         try
         {
@@ -388,8 +388,8 @@ public class TestNormal extends BaseForTests
             return new TaskExecutionResult(TaskExecutionStatus.SUCCESS, "test", Maps.newHashMap(), subTaskRunId);
         };
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
-            .addingTaskExecutor(taskExecutor, 10, taskType)
             .withCurator(curator, "test", "1")
+            .addingTaskExecutor(taskExecutor, 10, taskType)
             .build();
         try
         {
@@ -422,10 +422,10 @@ public class TestNormal extends BaseForTests
 
         TestTaskExecutor taskExecutor = new TestTaskExecutor(6);
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
+            .withCurator(curator, "test", "1")
             .addingTaskExecutor(taskExecutor, 10, taskType1)
             .addingTaskExecutor(taskExecutor, 10, taskType2)
             .addingTaskExecutor(taskExecutor, 10, taskType3)
-            .withCurator(curator, "test", "1")
             .build();
         try
         {
@@ -481,10 +481,10 @@ public class TestNormal extends BaseForTests
         };
 
         WorkflowManager workflowManager = WorkflowManagerBuilder.builder()
+            .withCurator(curator, "test", "1")
             .addingTaskExecutor(taskExecutor1, 10, taskType1)
             .addingTaskExecutor(taskExecutor2, 10, taskType2)
             .addingTaskExecutor(taskExecutor3, 10, taskType3)
-            .withCurator(curator, "test", "1")
             .build();
         try
         {

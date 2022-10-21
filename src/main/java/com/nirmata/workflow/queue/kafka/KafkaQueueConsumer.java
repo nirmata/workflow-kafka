@@ -253,16 +253,15 @@ public class KafkaQueueConsumer implements Closeable, QueueConsumer {
     private void submitToWorkerGently(ExecutableTask task) {
         boolean couldSubmit = false;
         // Submit to executor service with backpressure
-        for (int i = 0; !couldSubmit; i++) {
+        while (!couldSubmit) {
             try {
+                log.debug("KafkaQueueConsumer submitting task to workerservice {}", task);
                 executorWorkerService.submit(() -> taskRunner.executeTask(task));
                 couldSubmit = true;
             } catch (RejectedExecutionException ex) {
+                log.warn("Slow executors, and more work pumped in {}", task);
                 try {
                     Thread.sleep(1000);
-                    if (i % 10 == 0) {
-                        log.warn("Slow executors, and more work pumped in");
-                    }
                 } catch (InterruptedException _ex) {
                 }
             } catch (Exception ex) {

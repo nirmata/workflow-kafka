@@ -195,7 +195,9 @@ public class WorkflowManagerKafkaImpl implements WorkflowManager, WorkflowAdmin 
 
     @Override
     public RunId submitSubTask(RunId runId, RunId parentRunId, Task task) {
-        Preconditions.checkState(state.get() == State.STARTED, "Not started");
+        // Not checking state since we need to submit jobs without starting
+        // workflows for NDEV-17000 
+        //Preconditions.checkState(state.get() == State.STARTED, "Not started");
 
         RunnableTaskDagBuilder builder = new RunnableTaskDagBuilder(task);
         Map<TaskId, ExecutableTask> tasks = builder
